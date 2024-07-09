@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tourist Destinations</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .cover {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background-image: url("{% static 'images/cover.jpg' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .cover-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+
+        .cover-text h1 {
+            font-size: 3em;
+            margin: 0;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .destination-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .destination-list li {
+            background: white;
+            margin-bottom: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-items: center;
+            width: 200px;
+        }
+
+        .destination-list img {
+            max-width:100%;
+            height: 150px; 
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .destination-list a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .destination-list a:hover {
+            text-decoration: underline;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+
+        }
+
+        .button-group a, .button-group form {
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .button-group a, .button-group button {
+            padding: 10px 20px; /* Adjust padding for button size */
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align:center;
+            font-size: 16 px;
+        }
+
+        .button-group a:hover, .button-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .add-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .add-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="cover">
+        <div class="cover-text">
+            <h1>Welcome to Tourist Destinations</h1>
+            <p>Discover the best places to visit around the world</p>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Destinations</h2>
+        <ul class="destination-list">
+            {% for destination in destinations %}
+            <li>
+                <img src="{{ destination.image.url }}" alt="{{ destination.place_name }}">
+                <a href="{% url 'destination_detail' destination.pk %}">{{ destination.place_name }}</a>
+                <div class="button-group">
+                    <a href="{% url 'destination_update' destination.pk %}" class="update-button">Update</a>
+                    <form action="{% url 'destination_delete' destination.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'destination_create' %}" class="add-button">Add New Destination</a>
+    </div>
+</body>
+</html>

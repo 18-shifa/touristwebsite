@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ destination.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            width: 60%;
+            margin: 40px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-group a, .button-group button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            width: 100px; /* Consistent width for both buttons */
+        }
+
+        .button-group button {
+            width: 100px; /* Ensuring consistent width for buttons */
+        }
+
+        .button-group a:hover, .button-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ destination.place_name }}</h1>
+        <p>{{ destination.description }}</p>
+        <img src="{{ destination.image.url }}" alt="{{ destination.place_name }}">
+        <div class="button-group">
+            <a href="{% url 'destination_update' destination.pk %}" class="update-button">Edit</a>
+            <form action="{% url 'destination_delete' destination.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
+        </div>
+        <a href="{% url 'destination_list' %}" class="back-link">Back to List</a>
+    </div>
+</body>
+</html>
